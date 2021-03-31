@@ -12,10 +12,10 @@ lazyarray(f, x) = LazyArray(Base.broadcasted(f, x))
 safelogistic(x::T) where {T} = logistic(x) * (1 - 2 * eps(T)) + eps(T)
 
 # data handling stuff
-verbal = readdlm("./dichotom.txt", '\t', Int, '\n'; header = true);
+verbal, headerVerbal = readdlm("./dichotom.txt", '\t', Int, '\n'; header = true);
 
-dfVerbal = DataFrame(verbal[1]);
-rename!(dfVerbal,  Symbol.(permutedims(verbal[2])[:]));
+dfVerbal = DataFrame(verbal);
+rename!(dfVerbal,  Symbol.(permutedims(headerVerbal)[:]));
 dfVerbal.id = 1:nrow(dfVerbal);
 
 verbal_responses = DataFrames.stack(dfVerbal[:, Not([:Anger, :Sex])], Not(:id), :id);
@@ -40,5 +40,6 @@ end
 
 Turing.setadbackend(:reversediff)
 Turing.setrdcache(true)
-chn = sample(rasch(verbal_responses.value, verbal_responses.variable, verbal_responses.id), NUTS(1000, 0.8), 2000, progress = false)
-# NUTS(1000, 0.8), 2000 :: 43.783335 seconds (15.58 M allocations: 3.886 GiB, 0.78% gc time
+chn = sample(rasch(verbal_responses.value, verbal_responses.variable, verbal_responses.id),
+             NUTS(1000, 0.8), 2000, progress = false)
+# NUTS(1000, 0.8), 2000 :: 43.783335 seconds (15.58 M allocations: 3.886 GiB, 0.78% gc time)
