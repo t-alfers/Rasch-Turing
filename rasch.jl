@@ -41,4 +41,4 @@ end
 Turing.setadbackend(:reversediff)
 Turing.setrdcache(true)
 chn = sample(rasch(verbal_responses.value, verbal_responses.variable, verbal_responses.id), NUTS(1000, 0.8), 2000, progress = false)
-# NUTS(1000, 0.8), 2000 :: 43.783335 seconds (15.58 M allocations: 3.886 GiB, 0.78% gc time
+# NUTS(1000, 0.8), 2000 :: 43.783335 seconds (15.58 M allocations: 3.886 GiB, 0.78% gc time)
