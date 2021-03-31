@@ -5,9 +5,7 @@ using StatsFuns: logistic;
 ## using BenchmarkTools;
 
 # helper functions
-function intArray(a::CategoricalArray)
-    map(x -> Int(x), CategoricalArrays.order(a.pool)[a.refs]);
-end
+intArray(a::CategoricalArray) = map(x -> Int(x), CategoricalArrays.order(a.pool)[a.refs]);
 lazyarray(f, x) = LazyArray(Base.broadcasted(f, x))
 safelogistic(x::T) where {T} = logistic(x) * (1 - 2 * eps(T)) + eps(T)
 
